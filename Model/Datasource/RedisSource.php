@@ -31,6 +31,9 @@ class RedisSource extends DataSource {
     try {
       $this->_connection = new Redis();
       $this->_connection->connect($this->config['host'], $this->config['port']);
+      if (isset($this->config['db'])) {
+        $this->_connection->select($this->config['db']);
+      }
       $this->connected = true;
     } catch (Exception $e) {
       throw new MissingConnectionException(array(
